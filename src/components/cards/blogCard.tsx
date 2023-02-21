@@ -12,8 +12,9 @@ import {
 } from "@chakra-ui/react";
 
 interface BlogAuthorProps {
-  date: Date;
+  date: string;
   name: string;
+  image: string;
 }
 
 export const BlogAuthor: React.FC<BlogAuthorProps> = (props) => {
@@ -22,17 +23,35 @@ export const BlogAuthor: React.FC<BlogAuthorProps> = (props) => {
       <Image
         borderRadius="full"
         boxSize="40px"
-        src="https://100k-faces.glitch.me/random-image"
+        src={props.image}
         alt={`Avatar of ${props.name}`}
       />
       <Text fontWeight="medium">{props.name}</Text>
       <Text>—</Text>
-      <Text>{props.date.toLocaleDateString()}</Text>
+      <Text>{props.date}</Text>
     </HStack>
   );
 };
 
-const BlogCard = () => {
+interface IBlogCard {
+  coverImage: string;
+  domain: string;
+  title: string;
+  body: string;
+  authorName: string;
+  authorImage: string;
+  createdDate: string;
+}
+const BlogCard = (props: IBlogCard) => {
+  const {
+    coverImage,
+    domain,
+    body,
+    title,
+    authorName,
+    authorImage,
+    createdDate,
+  } = props;
   return (
     <Box
       width={{ base: "100%", md: "25rem" }}
@@ -49,9 +68,7 @@ const BlogCard = () => {
               <Link textDecoration="none" _hover={{ textDecoration: "none" }}>
                 <Image
                   transform="scale(1.0)"
-                  src={
-                    "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80"
-                  }
+                  src={coverImage}
                   alt="some text"
                   objectFit="contain"
                   width="100%"
@@ -62,29 +79,21 @@ const BlogCard = () => {
                 />
               </Link>
             </Box>
-            <Tag
-              size={"md"}
-              variant="solid"
-              colorScheme="orange"
-              key={"Eng"}
-              mt={2}
-            >
-              {"Eng"}
+            <Tag size={"md"} variant="solid" colorScheme="orange" mt={2}>
+              {domain}
             </Tag>
             <Heading fontSize="xl" marginTop="2">
               <Link textDecoration="none" _hover={{ textDecoration: "none" }}>
-                Some blog title
+                {title}
               </Link>
             </Heading>
             <Text as="p" fontSize="md" marginTop="2">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the standard dummy text ever since
-              the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book.
+              {body}
             </Text>
             <BlogAuthor
-              name="John Doe"
-              date={new Date("2021-04-06T19:01:27Z")}
+              name={authorName}
+              date={createdDate}
+              image={authorImage}
             />
           </Box>
         </WrapItem>
