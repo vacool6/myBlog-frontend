@@ -24,7 +24,7 @@ const Blog = () => {
       try {
         if (router.query.id) {
           const request = await axios.get(
-            `http://localhost:3001/blogs/${router.query.id}`
+            `${process.env.HOST_URL}/blogs/${router.query.id}`
           );
           setData(request.data.data);
         }

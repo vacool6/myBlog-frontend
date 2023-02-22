@@ -15,6 +15,8 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -32,9 +34,11 @@ const NavLink = (props: INavLink) => {
       px={2}
       py={1}
       rounded={"md"}
+      color="white"
       _hover={{
         textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
+        bg: "#EEEEEE",
+        color: "black",
       }}
       href={redirect}
     >
@@ -48,7 +52,7 @@ export const Navbar = () => {
 
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Box bg={"#6e5b07"} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
@@ -58,7 +62,22 @@ export const Navbar = () => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>my BLOG</Box>
+            <Box
+              bg="#EEEEEE"
+              borderRadius="xl"
+              p={2}
+              fontSize={"xl"}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Text fontStyle="italic" fontFamily="cursive">
+                my
+              </Text>
+              <Text fontWeight={700} ml={1}>
+                BLOG
+              </Text>
+            </Box>
             <HStack
               as={"nav"}
               spacing={4}
@@ -88,10 +107,14 @@ export const Navbar = () => {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
+                <Tooltip
+                  label="We will add this feature soon :)"
+                  placement="left-start"
+                >
+                  <MenuItem isDisabled>Write a blog</MenuItem>
+                </Tooltip>
                 <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <MenuItem>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>

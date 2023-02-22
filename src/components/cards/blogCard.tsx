@@ -67,6 +67,8 @@ const BlogCard = (props: IBlogCard) => {
       p={2}
       mx={2}
       my={6}
+      bg="#EEEEEE"
+      boxShadow="xl"
     >
       <Wrap spacing="30px">
         <WrapItem>

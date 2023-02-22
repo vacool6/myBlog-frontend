@@ -26,7 +26,7 @@ const HomePage = () => {
   useEffect(() => {
     const getAllBlogs = async () => {
       try {
-        const request = await axios.get("http://localhost:3001/blogs");
+        const request = await axios.get(`${process.env.HOST_URL}/blogs`);
         setData(request.data.data);
       } catch (error) {}
     };

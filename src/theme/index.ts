@@ -16,7 +16,7 @@ const OverrideTheme = {
       },
       body: {
         fontFamily: "Raleway, sans-serif",
-        backgroundColor: "#EEEEEE",
+        // backgroundColor: "#EEEEEE",
       },
     },
   },
