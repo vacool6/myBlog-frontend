@@ -1,45 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "@chakra-ui/react";
 //Components
 import BlogCard from "@/components/cards/blogCard";
 import Navbar from "@/components/navbar";
+import axios from "axios";
+import CustomLoader from "@/components/customLoader";
+//Helper
+import { coverImages, authorImages } from "@/helpers/images";
+import { IBlogData } from "@/helpers/types";
 
 const HomePage = () => {
-  const data = [
+  const [data, setData] = useState<IBlogData[]>([
     {
-      coverImage:
-        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
-      domain: "Eng",
-      title: "Title",
-      body: "Stuff",
-      authorImage:
-        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
-      authorName: "me",
-      createdDate: "22.22.2",
+      domain: "",
+      title: "",
+      body: "",
+      authorName: "",
+      createdDate: "",
+      _id: "",
+      coverImagePosition: "",
+      authorImagePosition: "",
     },
-    {
-      coverImage:
-        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
-      domain: "Eng",
-      title: "Title",
-      body: "Stuff",
-      authorImage:
-        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
-      authorName: "me",
-      createdDate: "22.22.2",
-    },
-    {
-      coverImage:
-        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
-      domain: "Eng",
-      title: "Title",
-      body: "Stuff",
-      authorImage:
-        "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
-      authorName: "me",
-      createdDate: "22.22.2",
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    const getAllBlogs = async () => {
+      try {
+        const request = await axios.get("http://localhost:3001/blogs");
+        setData(request.data.data);
+      } catch (error) {}
+    };
+    getAllBlogs();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -50,18 +43,23 @@ const HomePage = () => {
         justifyContent="center"
         flexWrap="wrap"
       >
-        {data.map((e) => (
-          <BlogCard
-            key={Math.random()}
-            coverImage={e.coverImage}
-            domain={e.domain}
-            title={e.title}
-            body={e.body}
-            authorName={e.authorName}
-            authorImage={e.authorImage}
-            createdDate={e.createdDate}
-          />
-        ))}
+        {!data[0].body ? (
+          <CustomLoader />
+        ) : (
+          data.map((e) => (
+            <BlogCard
+              key={e._id}
+              id={e._id}
+              domain={e.domain}
+              title={e.title}
+              body={e.body}
+              authorName={e.authorName}
+              createdDate={e.createdDate}
+              authorImage={authorImages[e.authorImagePosition]}
+              coverImage={coverImages[e.coverImagePosition]}
+            />
+          ))
+        )}
       </Container>
     </>
   );

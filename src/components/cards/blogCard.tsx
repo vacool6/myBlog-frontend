@@ -10,6 +10,9 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+//Helpers
+import { tagColors } from "@/helpers/tagColors";
 
 interface BlogAuthorProps {
   date: string;
@@ -34,23 +37,27 @@ export const BlogAuthor: React.FC<BlogAuthorProps> = (props) => {
 };
 
 interface IBlogCard {
-  coverImage: string;
   domain: string;
   title: string;
   body: string;
   authorName: string;
-  authorImage: string;
   createdDate: string;
+  id: string;
+  authorImage: string;
+  coverImage: string;
 }
+
 const BlogCard = (props: IBlogCard) => {
+  const router = useRouter();
   const {
-    coverImage,
     domain,
     body,
     title,
     authorName,
-    authorImage,
     createdDate,
+    id,
+    authorImage,
+    coverImage,
   } = props;
   return (
     <Box
@@ -76,10 +83,11 @@ const BlogCard = (props: IBlogCard) => {
                   _hover={{
                     transform: "scale(1.05)",
                   }}
+                  onClick={() => router.push(`blog/${id}`)}
                 />
               </Link>
             </Box>
-            <Tag size={"md"} variant="solid" colorScheme="orange" mt={2}>
+            <Tag size={"md"} variant="solid" bg={tagColors[`${domain}`]} mt={2}>
               {domain}
             </Tag>
             <Heading fontSize="xl" marginTop="2">
@@ -88,7 +96,7 @@ const BlogCard = (props: IBlogCard) => {
               </Link>
             </Heading>
             <Text as="p" fontSize="md" marginTop="2">
-              {body}
+              {`${body.slice(0, 250)}..........`}
             </Text>
             <BlogAuthor
               name={authorName}

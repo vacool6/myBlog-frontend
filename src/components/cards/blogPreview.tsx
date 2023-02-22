@@ -69,7 +69,9 @@ const BlogPreview = (props: IBlogPreview) => {
         justifyContent="center"
         marginTop={{ base: "3", sm: "0" }}
       ></Box>
-      <Text mt={10}>{body}</Text>
+      <Text my={10} lineHeight={2}>
+        {body}
+      </Text>
     </Box>
   );
 };
