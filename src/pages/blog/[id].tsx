@@ -33,8 +33,6 @@ const Blog = () => {
     getBlog();
   }, [router.query.id]);
 
-  console.log(data);
-
   return (
     <>
       <Navbar />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Heading,
@@ -9,7 +9,12 @@ import {
   Flex,
   Button,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
+//Helpers
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useToasts } from "@/context/toast";
 
 interface BlogAuthorProps {
   name: string;
@@ -39,7 +44,37 @@ interface IBlogPreview {
   comments: any;
 }
 const BlogPreview = (props: IBlogPreview) => {
+  const [comment, setComment] = useState<string>("");
   const { title, authorImage, body, authorName, coverImage, comments } = props;
+  const router = useRouter();
+  const { warningToast, successToast } = useToasts();
+
+  const commentHandler = async () => {
+    try {
+      if (!comment) {
+        warningToast("This field cannot be empty");
+        return;
+      }
+      const response = await axios.post(
+        `${process.env.HOST_URL}/comment/${router.query.id}`,
+        {
+          username: "Random comment",
+          comment,
+        }
+      );
+
+      if (response.data.success) {
+        successToast("Comment added!");
+        router.reload();
+        return;
+      } else {
+        warningToast("Something went wrong");
+        return;
+      }
+    } catch (error) {
+      warningToast("Something went wrong");
+    }
+  };
   return (
     <>
       <Box mt={10}>
@@ -90,6 +125,7 @@ const BlogPreview = (props: IBlogPreview) => {
             placeholder="Add a comment..."
             fontSize="lg"
             borderColor="#6e5b07"
+            onChange={(e) => setComment(e.target.value)}
           ></Textarea>
           <Button
             pos="absolute"
@@ -102,6 +138,8 @@ const BlogPreview = (props: IBlogPreview) => {
             transition="all 0.05s"
             _hover={{ backgroundColor: "blue.500" }}
             _active={{ backgroundColor: "blue.500", transform: "scale(0.95)" }}
+            onClick={commentHandler}
+            disabled={!comment}
           >
             Comment
           </Button>
@@ -136,8 +174,7 @@ const BlogPreview = (props: IBlogPreview) => {
             <Box
               key={Math.random()}
               border="1px solid black"
-              mt={4}
-              mb={10}
+              my={2}
               borderRadius="xl"
               px={4}
               w="90%"
