@@ -33,7 +33,7 @@ const Blog = () => {
     getBlog();
   }, [router.query.id]);
 
-  console.log(data.body);
+  console.log(data);
 
   return (
     <>
@@ -46,6 +46,7 @@ const Blog = () => {
             authorName={data.authorName}
             authorImage={authorImages[data.authorImagePosition]}
             coverImage={coverImages[data.coverImagePosition]}
+            comments={data.comments}
           />
         ) : (
           <CustomLoader />
