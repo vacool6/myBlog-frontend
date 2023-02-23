@@ -84,7 +84,7 @@ export const Navbar = () => {
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
-                <NavLink key={link} redirect="/home">
+                <NavLink key={link} redirect="/">
                   {link}
                 </NavLink>
               ))}
