@@ -13,6 +13,7 @@ Basic blog application with CRUD operations
 3 ) To run the app `yarn start or npm start`
 
 
+## Demo
 
 https://user-images.githubusercontent.com/42382545/221394248-54d197c2-69d2-4307-a71f-a854b73ae8a0.mp4
 
